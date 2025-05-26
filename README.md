@@ -1,18 +1,21 @@
 # Library Platform
 
-A PostgreSQL-based library management system that allows tracking of books, categories, and availability.
+A modern library management system built with SQLAlchemy and Typer CLI that allows tracking of books, categories, and members.
 
 ## Features
 
-- Book management (add, update, delete, list)
-- Category management (add, update, delete, list)
-- Inventory tracking (total and available copies)
-- ISBN and publication date tracking
+- Command-line interface for easy management
+- Book management (list, add, update, delete)
+- Category and Member management
+- Database integration with SQLAlchemy ORM
+- Clean architecture with controllers and models
 
 ## Technologies Used
 
 - Python 3.10
-- PostgreSQL
+- SQLAlchemy (ORM for database operations)
+- Typer (CLI interface)
+- PostgreSQL database
 - psycopg2 (PostgreSQL adapter for Python)
 - python-dotenv (for environment variable management)
 
@@ -55,48 +58,57 @@ PGUSER=your_username
 PGPASSWORD=your_password
 ```
 
-6. Create the required database tables (you may need to create the database first):
-```sql
-CREATE TABLE categories (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
-    description TEXT
-);
+6. Configure your database connection:
+   - Create a `.env` file in the project root with your PostgreSQL connection details
+   - The database schema is managed through SQLAlchemy models
 
-CREATE TABLE books (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    isbn VARCHAR(20),
-    published_date DATE,
-    total_copies INTEGER NOT NULL,
-    available_copies INTEGER NOT NULL,
-    category_id INTEGER REFERENCES categories(id)
-);
+## Running the Application
+
+The application uses Typer for its CLI interface. Here are the available commands:
+
+```bash
+# View help information and available commands
+python main.py --help
+
+# List all books in the library
+python main.py list-books
+
+# Test the CLI
+python main.py hello "Your Name"
 ```
 
-7. Run the application:
+### Commands
 
-```python
-python [main.py](http://_vscodecontentref_/1)
-```
-
-## Running Instructions
-
-Run the application using the command:
-```python
-python main.py
-```
+| Command | Description |
+|---------|-------------|
+| `list-books` | Display all books in the library |
+| `hello [NAME]` | Simple greeting command (example) |
 
 ## Project Structure
 
-config.py - Database configuration and environment variables
-db.py - Database connection utility
-main.py - Application entry point
-models/ - Data models
-book.py - Book model
-category.py - Category model
-resources/ - CRUD operations for models
-category_resource.py - Category CRUD operations
+```
+library-platform/
+├── controllers/
+│   └── books.py         # Book-related controller methods
+├── db/
+│   ├── config.py        # Database configuration
+│   └── database.py      # SQLAlchemy database setup
+├── models/
+│   ├── book.py          # Book model
+│   ├── category.py      # Category model
+│   └── member.py        # Member model
+├── main.py              # CLI entry point with Typer commands
+├── requirements.txt     # Project dependencies
+└── README.md
+```
+
+## Database Models
+
+The application uses SQLAlchemy ORM with the following models:
+
+- **Book**: Represents books in the library with title, ISBN, publication date, and copy information
+- **Category**: Categorizes books (fiction, non-fiction, etc.)
+- **Member**: Library members who can borrow books
 
 ## License
 

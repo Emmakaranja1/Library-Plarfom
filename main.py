@@ -6,9 +6,11 @@ from controllers import books
 
 app = typer.Typer(help="📚 Manage your books via CLI")
 
+
 @app.command()
 def hello(name: str):
     print(f"Hello {name}")
+
 
 @app.command(help="List all books in the library")
 def list_books():
